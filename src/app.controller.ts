@@ -8,8 +8,6 @@ export class AppController {
 
   @Put('record/:id/updateIpAddress')
   async putRecordIpAddress(@Param('id') id: string, @Req() req) {
-    console.log('Request headers: ' + JSON.stringify(req.headers));
-
     const record = await this.prisma.cloudflareDnsRecord.findUnique({
       where: { id: Number(id) },
       include: { cloudflareDnsZone: true },
@@ -25,7 +23,7 @@ export class AppController {
       throw new ForbiddenException();
     }
 
-    const clientIpAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    const clientIpAddress = req.headers['x-real-ip'] || req.socket.remoteAddress;
 
     console.log('Client IP address: ' + JSON.stringify(clientIpAddress));
 
