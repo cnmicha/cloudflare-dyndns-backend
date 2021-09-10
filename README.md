@@ -24,48 +24,48 @@ Please adapt the tag (`v1.1.1`) to the version you would like to use.
 version: "3.8"
 services:
 
-   backend:
-      image: cnmicha/cloudflare-dyndns-backend:v1.1.1
-      container_name: cloudflare-dyndns_backend
-      environment:
-         - DATABASE_URL=postgresql://postgres:mySecretDatabasePassword@10.0.0.3:5432/cloudflare-dyndns?schema=public&sslmode=prefer
-      networks:
-         cloudflare-dyndns_net:
-            ipv4_address: 10.0.0.2
-      restart: unless-stopped
-      depends_on:
-         - postgres
+  backend:
+    image: cnmicha/cloudflare-dyndns-backend:v1.1.1
+    container_name: cloudflare-dyndns_backend
+    environment:
+      - DATABASE_URL=postgresql://postgres:mySecretDatabasePassword@10.0.0.3:5432/cloudflare-dyndns?schema=public&sslmode=prefer
+    networks:
+      cloudflare-dyndns_net:
+        ipv4_address: 10.0.0.2
+    restart: unless-stopped
+    depends_on:
+      - postgres
 
-   postgres:
-      image: postgres:latest
-      container_name: cloudflare-dyndns_postgres
-      environment:
-         - POSTGRES_USER=postgres
-         - POSTGRES_PASSWORD=mySecretDatabasePassword
-      volumes:
-         - postgres:/var/lib/postgresql/data
-      networks:
-         cloudflare-dyndns_net:
-            ipv4_address: 10.0.0.3
-      restart: unless-stopped
+  postgres:
+    image: postgres:latest
+    container_name: cloudflare-dyndns_postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mySecretDatabasePassword
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      cloudflare-dyndns_net:
+        ipv4_address: 10.0.0.3
+    restart: unless-stopped
 
 volumes:
-   postgres:
+  postgres:
 
 networks:
-   cloudflare-dyndns_net:
-      driver: bridge
-      enable_ipv6: false
-      ipam:
-         driver: default
-         config:
-            - subnet: 10.0.0.0/24
-              gateway: 10.0.0.1
+  cloudflare-dyndns_net:
+    driver: bridge
+    enable_ipv6: false
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.0.0/24
+          gateway: 10.0.0.1
 ```
 
 ## Installation without Docker
 
-For production (reverse proxy for enabling HTTPS not included):
+### For production (reverse proxy for enabling HTTPS not included):
 
 Make sure the environment variable `DATABASE_URL` is set.
 
@@ -77,7 +77,7 @@ $ npm ci --only=production
 $ npm run start:prod
 ```
 
-For development:
+### For development:
 
 Create a `.env` file and fill in the value for `DATABASE_URL`.
 
