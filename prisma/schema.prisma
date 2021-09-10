@@ -23,7 +23,7 @@ model CloudflareDnsRecord {
   cloudflareDnsZone   CloudflareDnsZone @relation(references: [id], fields: [cloudflareDnsZoneId])
   cloudflareDnsZoneId Int
 
-  name String @unique @db.VarChar(255)
+  name String @db.VarChar(255)
   type String @db.VarChar(8)
 
   lastIpAddress          String?   @db.VarChar(45)
@@ -32,4 +32,5 @@ model CloudflareDnsRecord {
   lastUpdateWasSuccessful Boolean?
 
   authKey String @db.VarChar(64)
+  @@unique([name, type], name: "CloudflareDnsRecord_name_type_unique_constraint")
 }
