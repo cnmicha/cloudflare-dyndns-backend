@@ -29,6 +29,4 @@ COPY --from=development /usr/src/app/dist ./dist
 
 EXPOSE 3000
 
-RUN ls -al
-RUN ls -al dist/
 CMD ["npm", "run", "start:prod"]
