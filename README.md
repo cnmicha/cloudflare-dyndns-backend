@@ -88,6 +88,9 @@ Create a `.env` file and fill in the value for `DATABASE_URL`.
 # Install dependencies
 $ npm install
 
+# Format the Prisma schema file
+$ prisma format
+
 # Push the database schema reflected in code to the database
 $ prisma db push
 
