@@ -23,8 +23,7 @@ export class AppController {
       throw new ForbiddenException();
     }
 
-    let clientIpAddress = req.headers['x-forwarded-for'];
-    if (!clientIpAddress) clientIpAddress = req.socket.remoteAddress;
+    const clientIpAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
     console.log('Client IP address: ' + JSON.stringify(clientIpAddress));
 
