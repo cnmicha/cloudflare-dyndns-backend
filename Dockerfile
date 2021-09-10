@@ -5,6 +5,8 @@ WORKDIR /usr/src/app
 
 COPY . .
 
+RUN npm install -g rimraf
+
 RUN npm install --only=development
 
 RUN npm run build
