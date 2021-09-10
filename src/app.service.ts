@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CloudflareDnsRecord } from '@prisma/client';
 import { PrismaService } from './prisma/prisma.service';
 import axios from 'axios';
-import { CloudflareDnsRecordWithCloudflareDnsZone } from './prisma/types';
+import { CloudflareDnsRecordWithCloudflareDnsZone } from './prisma/additionalTypes';
 import { CloudflareDnsRecordClientInfo } from './types';
 
 const CLOUDFLARE_API_URL = 'https://api.cloudflare.com/client/v4';
@@ -11,10 +11,7 @@ const CLOUDFLARE_API_URL = 'https://api.cloudflare.com/client/v4';
 export class AppService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async notifyRecordIpAddress(
-    record: CloudflareDnsRecord,
-    currentIpAddress: string,
-  ) {
+  async notifyRecordIpAddress(record: CloudflareDnsRecord, currentIpAddress: string) {
     await this.prisma.cloudflareDnsRecord.update({
       where: {
         id: record.id,
@@ -26,13 +23,8 @@ export class AppService {
     });
   }
 
-  isRecordUpdateRequired(
-    record: CloudflareDnsRecord,
-    newIpAddress: string,
-  ): boolean {
-    return (
-      !record.lastUpdateWasSuccessful || record.lastIpAddress !== newIpAddress
-    );
+  isRecordUpdateRequired(record: CloudflareDnsRecord, newIpAddress: string): boolean {
+    return !record.lastUpdateWasSuccessful || record.lastIpAddress !== newIpAddress;
   }
 
   async updateRecordIpAddress(
@@ -50,69 +42,46 @@ export class AppService {
         })
       ).data.result;
 
-      console.log(
-        'cloudflareApiDnsZones: ' + cloudflareApiDnsZones.length + ' items',
-      );
+      console.log('cloudflareApiDnsZones: ' + cloudflareApiDnsZones.length + ' items');
 
       // Get the Cloudflare zone id of the DNS record we want to update
-      const cloudflareApiDnsZone = cloudflareApiDnsZones.find(
-        (zone) => zone.name === record.cloudflareDnsZone.name,
-      );
+      const cloudflareApiDnsZone = cloudflareApiDnsZones.find((zone) => zone.name === record.cloudflareDnsZone.name);
 
-      if (!cloudflareApiDnsZone)
+      if (!cloudflareApiDnsZone) {
+        // noinspection ExceptionCaughtLocallyJS
         throw new Error('No matching Cloudflare API zone found');
+      }
 
-      console.log(
-        'API: Zone ' +
-          cloudflareApiDnsZone.name +
-          ' has id ' +
-          cloudflareApiDnsZone.id,
-      );
+      console.log('API: Zone ' + cloudflareApiDnsZone.name + ' has id ' + cloudflareApiDnsZone.id);
 
       // Get the Cloudflare record id of the DNS record we want to update
       const cloudflareApiDnsRecords = (
-        await axios.get(
-          CLOUDFLARE_API_URL +
-            '/zones/' +
-            cloudflareApiDnsZone.id +
-            '/dns_records?per_page=200',
-          {
-            headers: {
-              Authorization: 'Bearer ' + record.cloudflareDnsZone.authToken,
-              'Content-Type': 'application/json',
-            },
+        await axios.get(CLOUDFLARE_API_URL + '/zones/' + cloudflareApiDnsZone.id + '/dns_records?per_page=200', {
+          headers: {
+            Authorization: 'Bearer ' + record.cloudflareDnsZone.authToken,
+            'Content-Type': 'application/json',
           },
-        )
+        })
       ).data.result;
 
-      console.log(
-        'cloudflareApiDnsRecords: ' + cloudflareApiDnsRecords.length + ' items',
-      );
+      console.log('cloudflareApiDnsRecords: ' + cloudflareApiDnsRecords.length + ' items');
 
       // Get the Cloudflare record id of the DNS record we want to update
       let cloudflareApiDnsRecord = cloudflareApiDnsRecords.find(
-        (apiRecord) =>
-          apiRecord.name === record.name && apiRecord.type === record.type,
+        (apiRecord) => apiRecord.name === record.name && apiRecord.type === record.type,
       );
 
-      if (!cloudflareApiDnsRecord)
+      if (!cloudflareApiDnsRecord) {
+        // noinspection ExceptionCaughtLocallyJS
         throw new Error('No matching Cloudflare API zone found');
+      }
 
-      console.log(
-        'API: Record ' +
-          cloudflareApiDnsRecord.name +
-          ' has id ' +
-          cloudflareApiDnsRecord.id,
-      );
+      console.log('API: Record ' + cloudflareApiDnsRecord.name + ' has id ' + cloudflareApiDnsRecord.id);
 
       // Update Cloudflare DNS record with new IP address
       cloudflareApiDnsRecord = (
         await axios.patch(
-          CLOUDFLARE_API_URL +
-            '/zones/' +
-            cloudflareApiDnsZone.id +
-            '/dns_records/' +
-            cloudflareApiDnsRecord.id,
+          CLOUDFLARE_API_URL + '/zones/' + cloudflareApiDnsZone.id + '/dns_records/' + cloudflareApiDnsRecord.id,
           {
             content: newIpAddress,
           },
