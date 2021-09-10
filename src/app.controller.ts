@@ -1,4 +1,4 @@
-import { Controller, ForbiddenException, Param, Put, Req } from '@nestjs/common';
+import { Controller, ForbiddenException, NotFoundException, Param, Put, Req } from '@nestjs/common';
 import { AppService } from './app.service';
 import { PrismaService } from './prisma/prisma.service';
 
@@ -13,6 +13,10 @@ export class AppController {
       include: { cloudflareDnsZone: true },
     });
     console.log('Got record: ' + JSON.stringify(record));
+
+    if (!record) {
+      throw new NotFoundException();
+    }
 
     // Check auth
     if (req.headers['x-api-key'] !== record.authKey) {
