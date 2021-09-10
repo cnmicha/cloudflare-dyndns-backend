@@ -3,14 +3,11 @@ FROM node:14-alpine As development
 # Create app directory
 WORKDIR /usr/src/app
 
-COPY package*.json ./
-COPY prisma ./prisma/
+COPY . .
 
 RUN npm install glob rimraf
 
-RUN npm install --only=development
-
-COPY . .
+RUN npm install
 
 RUN npm run build
 
