@@ -14,8 +14,8 @@ assigning the Cloudflare DNS servers to it.
 Please note that using a NGINX or Apache reverse proxy for HTTPS is recommended as this application only provides an
 HTTP server.
 
-For client IP detection, the `x-real-ip` HTTP header is used (if present). Otherwise, there is a fallback to the
-layer 3 IP address.
+For client IP detection, the `x-real-ip` HTTP header is used (if present). Otherwise, there is a fallback to the layer 3
+IP address.
 
 ## Installation with Docker (recommended for production)
 
@@ -158,8 +158,20 @@ may be seen by other applications and users on your machine.
 Set up a cronjob to run the following command every 1 minute:
 
 ```bash
-$ curl --location --request PUT 'https://dyndns.example.com/record/17/updateIpAddress' --header 'x-api-key: MySuperSecretApiKeyFromDatabase'
+# For IPv4:
+$ curl -g -4 --location --request PUT 'https://dyndns.example.com/record/17/updateIpAddress' --header 'x-api-key: MySuperSecretApiKeyFromDatabase'
+
+# For IPv6:
+$ curl -g -6 --location --request PUT 'https://dyndns.example.com/record/17/updateIpAddress' --header 'x-api-key: MySuperSecretApiKeyFromDatabase'
 ```
+
+## Setting both IPv4 and IPv6 records
+
+If your internet connection is IPv4 and IPv6-enabled you might want to update an A and an AAAA DNS record. Therefore,
+your server needs an IPv4 and IPv6 address at the same time.
+
+If your client does not have a local IPv6 address, it is recommended to run the server on two different FQDNs, one with
+only an A record and the other with an AAAA record.
 
 ## Developer information
 
