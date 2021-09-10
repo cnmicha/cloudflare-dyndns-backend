@@ -28,4 +28,6 @@ COPY --from=development /usr/src/app/package*.json ./
 COPY --from=development /usr/src/app/dist ./dist
 
 EXPOSE 3000
+
+RUN ls -al
 CMD ["npm", "run", "start:prod"]
