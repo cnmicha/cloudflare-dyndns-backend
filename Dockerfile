@@ -1,13 +1,11 @@
-FROM node:14 As development
+FROM node:14-alpine As development
 
 # Create app directory
 WORKDIR /usr/src/app
 
 COPY . .
 
-RUN npm install -g rimraf
-
-RUN npm install --only=development
+RUN npm install
 
 RUN npm run build
 
