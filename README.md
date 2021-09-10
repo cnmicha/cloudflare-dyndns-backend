@@ -92,7 +92,7 @@ $ npm install
 $ prisma db push
 
 # Create a migration from changes in the Prisma schema file
-$ prisma migrate dev --name my_migration_name
+$ prisma migrate dev
 
 # Reset the database to undo manual changes or changes from $ db push
 $ prisma migrate reset
