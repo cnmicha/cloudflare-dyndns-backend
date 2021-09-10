@@ -28,9 +28,9 @@ model CloudflareDnsRecord {
 
   lastIpAddress          String?   @db.VarChar(45)
   lastIpAddressTimestamp DateTime?
-
   lastUpdateWasSuccessful Boolean?
 
   authKey String @db.VarChar(64)
+
   @@unique([name, type], name: "CloudflareDnsRecord_name_type_unique_constraint")
 }
