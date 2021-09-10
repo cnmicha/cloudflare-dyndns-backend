@@ -26,6 +26,7 @@ RUN npm ci --only=production
 COPY --from=development /usr/src/app/node_modules ./node_modules
 COPY --from=development /usr/src/app/package*.json ./
 COPY --from=development /usr/src/app/dist ./dist
+COPY --from=development /usr/src/app/prisma ./prisma
 
 EXPOSE 3000
 
