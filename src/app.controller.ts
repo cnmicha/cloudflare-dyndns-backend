@@ -1,4 +1,4 @@
-import { Controller, ForbiddenException, NotFoundException, Param, Put, Req } from '@nestjs/common';
+import { Controller, ForbiddenException, Get, NotFoundException, Param, Put, Query, Req } from '@nestjs/common';
 import { AppService } from './app.service';
 import { PrismaService } from './prisma/prisma.service';
 
@@ -8,6 +8,19 @@ export class AppController {
 
   @Put('record/:id/updateIpAddress')
   async putRecordIpAddress(@Param('id') id: string, @Req() req) {
+    return this.updateRecordIpAddress(id, req.headers['x-api-key'], this.getClientIpAddress(req));
+  }
+
+  @Get('record/:id/updateIpAddress')
+  async getRecordIpAddress(@Param('id') id: string, @Query('apiKey') apiKey: string, @Req() req) {
+    return this.updateRecordIpAddress(id, apiKey, this.getClientIpAddress(req));
+  }
+
+  getClientIpAddress(@Req() req): string {
+    return req.headers['x-real-ip'] || req.socket.remoteAddress;
+  }
+
+  async updateRecordIpAddress(id: string, apiKey: string, clientIpAddress: string) {
     const record = await this.prisma.cloudflareDnsRecord.findUnique({
       where: { id: Number(id) },
       include: { cloudflareDnsZone: true },
@@ -19,11 +32,9 @@ export class AppController {
     }
 
     // Check auth
-    if (req.headers['x-api-key'] !== record.authKey) {
+    if (apiKey !== record.authKey) {
       throw new ForbiddenException();
     }
-
-    const clientIpAddress = req.headers['x-real-ip'] || req.socket.remoteAddress;
 
     console.log('Client IP address: ' + JSON.stringify(clientIpAddress));
 

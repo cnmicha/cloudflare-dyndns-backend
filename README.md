@@ -165,6 +165,19 @@ $ curl -g -4 --location --request PUT 'https://dyndns.example.com/record/17/upda
 $ curl -g -6 --location --request PUT 'https://dyndns.example.com/record/17/updateIpAddress' --header 'x-api-key: MySuperSecretApiKeyFromDatabase'
 ```
 
+Alternatively, there is an option to use GET requests (for compatibility with AVM FRITZ!Box home routers):
+
+```bash
+# For IPv4:
+$ curl -g -4 --location 'https://dyndns.example.com/record/17/updateIpAddress?apiKey=MySuperSecretApiKeyFromDatabase'
+
+# For IPv6:
+$ curl -g -6 --location 'https://dyndns.example.com/record/17/updateIpAddress?apiKey=MySuperSecretApiKeyFromDatabase'
+```
+
+Please note that some transparent HTTPS proxys log URLs including the secret API key. Please ensure there is no proxy in
+between before using GET requests.
+
 ## Setting both IPv4 and IPv6 records
 
 If your internet connection is IPv4 and IPv6-enabled you might want to update an A and an AAAA DNS record. Therefore,
