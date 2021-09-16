@@ -1,4 +1,4 @@
-# Build your own Dynamic DNS with Cloudflare (backend)
+# Build your own Dynamic DNS service with Cloudflare DNS servers (backend)
 
 Build your own dynamic DNS service. Supports IPv6 and IPv4. Available
 as [Docker container](https://hub.docker.com/r/cnmicha/cloudflare-dyndns-backend).
