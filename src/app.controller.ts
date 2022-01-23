@@ -17,7 +17,7 @@ export class AppController {
   }
 
   getClientIpAddress(@Req() req): string {
-    return req.headers['CF-Connecting-IP'] || req.socket.remoteAddress;
+    return req.headers['Cf-Connecting-Ip'] || req.socket.remoteAddress;
   }
 
   async updateRecordIpAddress(id: string, apiKey: string, clientIpAddress: string) {

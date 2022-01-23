@@ -14,7 +14,7 @@ assigning the Cloudflare DNS servers to it.
 Please note that using a NGINX or Apache reverse proxy for HTTPS is recommended as this application only provides an
 HTTP server.
 
-For client IP detection, the `CF-Connecting-IP` HTTP header is used (if present). Otherwise, there is a fallback to the layer 3
+For client IP detection, the `Cf-Connecting-Ip` HTTP header is used (if present). Otherwise, there is a fallback to the layer 3
 IP address.
 
 ## Installation with Docker (recommended for production)
