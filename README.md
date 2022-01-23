@@ -19,7 +19,7 @@ IP address.
 
 ## Installation with Docker (recommended for production)
 
-You may use the following docker-compose file (reverse proxy for enabling HTTPS not included).
+You may use the following docker-compose file (reverse proxy for enabling HTTPS not included, both nginx and Traefik have been successfully tested).
 
 Please adapt the tag (`v1.1.1`) to the version you would like to use.
 
