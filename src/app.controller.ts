@@ -8,7 +8,7 @@ export class AppController {
 
   @Put('record/:id/updateIpAddress')
   async putRecordIpAddress(@Param('id') id: string, @Req() req) {
-    return this.updateRecordIpAddress(id, req.headers['x-api-key'], this.getClientIpAddress(req));
+    return this.updateRecordIpAddress(id, req.header('x-api-key'), this.getClientIpAddress(req));
   }
 
   @Get('record/:id/updateIpAddress')
@@ -17,7 +17,7 @@ export class AppController {
   }
 
   getClientIpAddress(@Req() req): string {
-    return req.headers['Cf-Connecting-Ip'] || req.socket.remoteAddress;
+    return req.header('Cf-Connecting-Ip') || req.socket.remoteAddress;
   }
 
   async updateRecordIpAddress(id: string, apiKey: string, clientIpAddress: string) {
