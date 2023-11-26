@@ -1,4 +1,4 @@
-FROM node:19-alpine As development
+FROM node:20-alpine As development
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -12,7 +12,7 @@ RUN npm install
 RUN npm run build
 
 
-FROM node:19-alpine As production
+FROM node:20-alpine As production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
