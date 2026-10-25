@@ -21,14 +21,14 @@ IP address.
 
 You may use the following docker-compose file (reverse proxy for enabling HTTPS not included, both nginx and Traefik have been successfully tested).
 
-Please adapt the tag (`v1.1.1`) to the version you would like to use.
+Please adapt the tag (`latest`) to the version you would like to use.
 
 ```yaml
 version: "3.8"
 services:
 
   backend:
-    image: cnmicha/cloudflare-dyndns-backend:v1.1.1
+    image: cnmicha/cloudflare-dyndns-backend:latest
     container_name: cloudflare-dyndns_backend
     environment:
       - DATABASE_URL=postgresql://postgres:mySecretDatabasePassword@10.0.0.3:5432/cloudflare-dyndns?schema=public&sslmode=prefer
