@@ -21,14 +21,14 @@ IP address.
 
 You may use the following docker-compose file (reverse proxy for enabling HTTPS not included, both nginx and Traefik have been successfully tested).
 
-Please adapt the tag (`v1.1.1`) to the version you would like to use.
+Please adapt the tag (`latest`) to the version you would like to use.
 
 ```yaml
 version: "3.8"
 services:
 
   backend:
-    image: cnmicha/cloudflare-dyndns-backend:v1.1.1
+    image: cnmicha/cloudflare-dyndns-backend:latest
     container_name: cloudflare-dyndns_backend
     environment:
       - DATABASE_URL=postgresql://postgres:mySecretDatabasePassword@10.0.0.3:5432/cloudflare-dyndns?schema=public&sslmode=prefer
@@ -40,7 +40,7 @@ services:
       - postgres
 
   postgres:
-    image: postgres:latest
+    image: postgres:17-alpine
     container_name: cloudflare-dyndns_postgres
     environment:
       - POSTGRES_USER=postgres
@@ -82,11 +82,25 @@ $ npm run start:prod
 
 ### For development:
 
-Create a `.env` file and fill in the value for `DATABASE_URL`.
+Create a `.env` file and fill in the value for `DATABASE_URL`. To use the local development database
+started via Docker, copy `.env.example` to `.env`.
+
+In the dev container, the database is started with the host's Docker (Docker-outside-of-Docker) and `DATABASE_URL`
+is preset to reach it via `host.docker.internal`, so no `.env` is needed there.
 
 ```bash
 # Install dependencies
 $ npm install
+
+# Start the local development database (PostgreSQL in Docker, bound to localhost only), then apply migrations
+$ npm run db:up
+$ prisma migrate deploy
+
+# Stop the local development database (data is kept)
+$ npm run db:down
+
+# Wipe the local development database and recreate it with all migrations applied
+$ npm run db:reset
 
 # Format the Prisma schema file
 $ prisma format

@@ -3,13 +3,30 @@
 {
 	"name": "cloudflare-dyndns-backend",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm",
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:26-trixie",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+	// Docker-outside-of-Docker uses the host's Docker to run the development database (docker-compose.dev.yml).
+	// The database container therefore runs on the host, next to this dev container.
+	// The image is multi-arch, so it runs natively on Apple Silicon, as this feature requires (no emulated x86).
+	// "moby": false installs the Docker CE CLI instead, since Moby packages aren't published for Debian trixie.
+	"features": {
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+			"moby": false
+		}
+	},
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+	// The database port is published on the host's loopback, which is reachable from here via host.docker.internal.
+	// This overrides DATABASE_URL from .env, which uses localhost for running outside the dev container.
+	"remoteEnv": {
+		"DATABASE_URL": "postgresql://postgres:postgres@host.docker.internal:5432/cloudflare-dyndns?schema=public"
+	},
+
+	"runArgs": [
+		"--name", "cloudflare-dyndns-backend",
+		// Docker Desktop provides host.docker.internal already; this adds it on Linux hosts
+		"--add-host=host.docker.internal:host-gateway"
+	],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "npm install"
