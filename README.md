@@ -31,7 +31,7 @@ services:
     image: cnmicha/cloudflare-dyndns-backend:latest
     container_name: cloudflare-dyndns_backend
     environment:
-      - DATABASE_URL=postgresql://postgres:mySecretDatabasePassword@10.0.0.3:5432/cloudflare-dyndns?schema=public&sslmode=prefer
+      - DATABASE_URL=postgresql://postgres:mySecretDatabasePassword@10.0.0.3:5432/cloudflare-dyndns?schema=public&sslmode=disable
     networks:
       cloudflare-dyndns_net:
         ipv4_address: 10.0.0.2
