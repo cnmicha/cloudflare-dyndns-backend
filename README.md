@@ -85,12 +85,17 @@ $ npm run start:prod
 Create a `.env` file and fill in the value for `DATABASE_URL`. To use the local development database
 started via Docker, copy `.env.example` to `.env`.
 
+The database connection URL is configured in `prisma.config.ts` and read from `DATABASE_URL`.
+
 In the dev container, the database is started with the host's Docker (Docker-outside-of-Docker) and `DATABASE_URL`
 is preset to reach it via `host.docker.internal`, so no `.env` is needed there.
 
 ```bash
 # Install dependencies
 $ npm install
+
+# Generate the Prisma client (required after install and after schema changes)
+$ npx prisma generate
 
 # Start the local development database (PostgreSQL in Docker, bound to localhost only), then apply migrations
 $ npm run db:up
