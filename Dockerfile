@@ -9,6 +9,8 @@ RUN npm install glob rimraf
 
 RUN npm install
 
+RUN npx prisma generate
+
 RUN npm run build
 
 
@@ -21,12 +23,13 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 COPY --from=development /usr/src/app/node_modules ./node_modules
 COPY --from=development /usr/src/app/package*.json ./
 COPY --from=development /usr/src/app/dist ./dist
 COPY --from=development /usr/src/app/prisma ./prisma
+COPY --from=development /usr/src/app/prisma.config.ts ./prisma.config.ts
 
 EXPOSE 3000
 
