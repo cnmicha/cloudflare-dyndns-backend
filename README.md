@@ -94,7 +94,7 @@ $ npm install
 
 # Start the local development database (PostgreSQL in Docker, bound to localhost only), then apply migrations
 $ npm run db:up
-$ prisma migrate deploy
+$ npx prisma migrate deploy
 
 # Stop the local development database (data is kept)
 $ npm run db:down
@@ -103,16 +103,16 @@ $ npm run db:down
 $ npm run db:reset
 
 # Format the Prisma schema file
-$ prisma format
+$ npx prisma format
 
 # Push the database schema reflected in code to the database
-$ prisma db push
+$ npx prisma db push
 
 # Create a migration from changes in the Prisma schema file
-$ prisma migrate dev
+$ npx prisma migrate dev
 
 # Reset the database to undo manual changes or changes from $ db push
-$ prisma migrate reset
+$ npx prisma migrate reset
 
 # Run the application
 $ npm run start

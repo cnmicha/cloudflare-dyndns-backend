@@ -27,9 +27,11 @@
     "@nestjs/common": "^12.2.0",
     "@nestjs/core": "^12.2.0",
     "@nestjs/platform-express": "^12.2.0",
-    "@prisma/client": "^6.4.1",
+    "@prisma/adapter-pg": "^7.10.1",
+    "@prisma/client": "^7.10.1",
     "axios": "^1.20.0",
-    "helmet": "^8.0.0",
+    "helmet": "^8.3.0",
+    "pg": "^8.23.1",
     "reflect-metadata": "^0.2.2",
     "rimraf": "^6.0.1",
     "rxjs": "^7.8.2"
@@ -39,24 +41,28 @@
     "@nestjs/schematics": "^12.0.10",
     "@nestjs/testing": "^12.2.0",
     "@types/express": "^5.0.0",
-    "@types/node": "^22.13.10",
+    "@types/node": "^26.6.5",
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^8.72.0",
     "@typescript-eslint/parser": "^8.72.0",
-    "@vitest/coverage-v8": "^4.1.12",
+    "@vitest/coverage-v8": "^5.0.5",
     "eslint": "^10.13.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.2.3",
     "prettier": "^3.5.3",
-    "prisma": "^6.4.1",
+    "prisma": "^7.10.1",
     "supertest": "^7.0.0",
     "ts-loader": "^9.6.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "~6.0.3",
-    "vitest": "^4.1.12"
+    "vitest": "^5.0.5"
   },
   "overrides": {
     "multer": "^2.5.0"
+  },
+  "allowScripts": {
+    "@prisma/engines@7.10.1": true,
+    "prisma@7.10.1": true
   }
 }
