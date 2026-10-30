@@ -74,7 +74,7 @@ Make sure the environment variable `DATABASE_URL` is set.
 
 ```bash
 # Install dependencies
-$ npm ci --only=production
+$ npm ci --omit=dev
 
 # Deploy database migrations and start the server
 $ npm run start:prod

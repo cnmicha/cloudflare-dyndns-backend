@@ -21,7 +21,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 COPY --from=development /usr/src/app/node_modules ./node_modules
 COPY --from=development /usr/src/app/package*.json ./
