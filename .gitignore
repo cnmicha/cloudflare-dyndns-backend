@@ -11,3 +11,4 @@ dist
 
 coverage
 *.tsbuildinfo
+/src/prisma/generated

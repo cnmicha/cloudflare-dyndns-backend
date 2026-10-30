@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CloudflareDnsRecord } from '@prisma/client';
+import { CloudflareDnsRecord } from './prisma/generated/client';
 import { PrismaService } from './prisma/prisma.service';
 import axios from 'axios';
 import { CloudflareDnsRecordWithCloudflareDnsZone } from './prisma/additionalTypes';
